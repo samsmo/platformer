@@ -16,7 +16,7 @@ class Player extends FlxSprite
 	public function new(X:Float=0, Y:Float=0) {
 		super(X,Y);
 		
-		MAX_JUMP = GRAVITY / 3;
+		MAX_JUMP = GRAVITY / 4;
 
 		loadGraphic("assets/images/player.png", true, 32, 32);
 		
@@ -46,12 +46,13 @@ class Player extends FlxSprite
 			this.acceleration.x = 0;
 		}
 
-		if(FlxG.keys.pressed.W && this.isTouching(FlxObject.FLOOR)) {
+		if(FlxG.keys.justPressed.W && this.isTouching(FlxObject.FLOOR)) {
 		
 			this.velocity.y = -ACCELERATION;
 			facing = FlxObject.UP;
+			hasDoubleJumped = false;
 		
-		} else if(FlxG.keys.pressed.W && !this.isTouching(FlxObject.FLOOR) 
+		} else if(FlxG.keys.justPressed.W && !this.isTouching(FlxObject.FLOOR) 
 					&& !hasDoubleJumped && (this.velocity.y >= -MAX_JUMP / 1.5 && this.velocity.y <= MAX_JUMP / 1.5)) {
 			
 			hasDoubleJumped = true;
@@ -66,7 +67,7 @@ class Player extends FlxSprite
 	}
 	private function animationCheck():Void
 	{
-		if(velocity.x != 0 && velocity.y == 0 || velocity.y != 0)
+		if(velocity.x != 0 || velocity.y != 0)
 	    {
 			switch(facing)
 			{
